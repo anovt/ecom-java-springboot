@@ -17,6 +17,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+
+
     @PostMapping("/admin/categories/{categoryId}/product")
     public ResponseEntity<ProductDTO> post(@RequestBody Product product, @PathVariable Long categoryId) {
 
