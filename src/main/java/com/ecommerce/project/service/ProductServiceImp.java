@@ -1,6 +1,8 @@
 package com.ecommerce.project.service;
 
 import ch.qos.logback.core.model.Model;
+import com.ecommerce.project.exceptions.ResourceNotFoundException;
+import com.ecommerce.project.model.Category;
 import com.ecommerce.project.model.Product;
 import com.ecommerce.project.payload.ProductDTO;
 import com.ecommerce.project.payload.ProductResponse;
@@ -22,6 +24,15 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public ProductDTO saveProduct(Product product, Long categoryId) {
-        return null;
+            Category category = categoryRepository.findById(categoryId).orElseThrow(
+                    ()->new ResourceNotFoundException("Category","categoryId",categoryId));
+
+            product.setCategory(category);
+            double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) *  product.getPrice());
+            product.setSpecialPrice(specialPrice);
+            Product savedProduct = productRepository.save(product);
+            return modelMapper.map(savedProduct,ProductDTO.class);
+
+
     }
 }

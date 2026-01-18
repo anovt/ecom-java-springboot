@@ -35,9 +35,13 @@ public class MyGlobalExceptionHandler {
         return  new ResponseEntity<ErrorCustomResponse>(errorData, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> myResponse(ResourceNotFoundException e){
+    public ResponseEntity<ErrorCustomResponse> myResponse(ResourceNotFoundException e){
         String message = e.getMessage();
-        return new ResponseEntity<String>(message, HttpStatus.NOT_FOUND);
+        ErrorCustomResponse errorData = new ErrorCustomResponse<>();
+
+        errorData.setContent(message);
+        errorData.setSuccess(false);
+        return new ResponseEntity<ErrorCustomResponse>(errorData, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(APIException.class)
