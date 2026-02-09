@@ -19,7 +19,7 @@ public class MyGlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorCustomResponse> myMethodArgumentNotValidException(MethodArgumentNotValidException e){
-
+        System.out.println("error captured");
         Map<String, String> response = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach(err -> {
             String fieldName = ((FieldError)err).getField();
